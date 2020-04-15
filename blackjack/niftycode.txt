@@ -1,0 +1,17 @@
+//Delete the image card and replace it with a new card image
+let toDelete = this.dealerCardBox.childNodes[1];
+toDelete.parentNode.removeChild(toDelete);
+
+
+//Refresh the page
+<input type="button" value="Refresh Page" onClick="window.location.reload()">
+window.location.reload()
+
+//Add event listener to the window
+window.addEventListener('keydown', () => {this.deal()}, false);
+window.addEventListener("keydown", dealWithKeyboard, false);
+
+
+//Create elemnt and place before all other elements
+this.header = document.createElement('header');
+document.body.insertBefore(this.header, document.body.firstChild);

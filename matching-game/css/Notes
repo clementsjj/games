@@ -1,0 +1,8 @@
+-13 June-
+Memory-Game.html is now the most recent version
+and synched with MemoryGame.js and memory-game.css
+
+
+Inside setTimeout function....
+if you use Function, you hav to end the function with .bind(this)
+If you use '=>', you do not need to include .bind(this). it automatically binds it to the current scope.

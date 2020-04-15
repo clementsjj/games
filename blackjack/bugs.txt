@@ -1,0 +1,88 @@
+~~~~~~~~~~ Quick Bugs ~~~~~~~~~~
+
+BlackJack has an Alert message, and does not disable buttons, bc the disable happens in stand() function
+
+If player reaches 21, automatically stand
+
+Player AND dealer get bj
+
+Player stands on 14 with no hit. Dealer has 15, hits to 25, wins...
+
+Remove Alert Message when dealer draws bj
+
+
+*********** Future Upgrades ***********
+--Figure out the Ace value and soft 17 shit
+
+--Add Double Down Option
+
+--Add bottom detailed message box, with flashy box
+
+--Center cards in the play box
+
+--Add button keyboard event listener
+
+--Change Bet Amount
+
+--Create a test array to debug
+
+
+
+*********** Really Really Future Upgrades ***********
+-- Insurance
+
+--Log in and save
+
+
+
+
+
+
+
+
+
+ ~*~*~*~*~*~*~*~*~*~*~* How to handle Aces ~*~*~*~*~*~*~*~*~*~*~*
+Facts:
+By default, the Ace is worth 11. If the score is greater than 10, Ace becomes 1.
+You can only have 1 Ace = 11.
+
+
+
+ if the array includes more than 1 ace:
+
+If ace, check score, add 11.
+If another ace, check if an ace already exists, value by default =1;
+If new ace + old ace create over 21, then first ace = 1.
+
+Run through 
+ var success = array_a.every(function(val) {
+    return array_b.indexOf(val) !== -1;
+});
+
+
+
+
+
+
+Brian's Method:
+If player > 21
+proceed to run a check of Aces. Save the player from busting by changing the value of the Ace
+Use Player Ace score to keep track of how many points you have from Aces, also serves as an easy check if you have an ace
+
+--Inside 'Hit()'
+if(hitCard.value=='Ace'){
+    if(this.playerScore <= 10{
+        this.playerScore +=11
+        this.playerAceScore += 11
+    } else {//Score is already too high
+        this.playerScore += 1
+        this.playerAceScore += 1
+    }
+}else {
+    this.playerScore += hitCard.numVal
+}
+
+
+
+Dwyer Method
+Map through array, search for a numVal of 11, and change to 1

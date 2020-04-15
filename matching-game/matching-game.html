@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Memory Game</title>
+
+    <link href="css/matching-game.css" rel="stylesheet" />
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div id="container">
+      <header>
+        <h1 id="title">Memory Game</h1>
+
+        <select id="chooser">
+          <!-- <option value="0">Choose Level</option> -->
+          <option value="12">Easy (12 pairs)</option>
+          <!-- <option value="18">Medium (18 pairs)</option>
+          <option value="25">Hard (25 pairs)</option>
+          <option value="30">Extremely Hard (30 pairs)</option> -->
+        </select>
+
+        <button
+          id="play-btn"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-4 rounded"
+        >
+          PLAY
+        </button>
+      </header>
+      <div id="msg-box"></div>
+
+      <!-- holds match game pieces -->
+      <div id="app"></div>
+
+      <footer>
+        <!-- average = matches/attempts 
+every 2 picChoices counts as 1 attempts++
+every correct match increments matches++ -->
+
+        <span id="score-box">
+          Attempts: &nbsp; 0 &nbsp; Matches: &nbsp; 0 &nbsp; Average: &nbsp;
+          0.000 &nbsp; Score: &nbsp; 0 &nbsp;
+        </span>
+        <span> Timer:</span>
+        <span id="timer-box" style="color: red;">
+          00:00
+        </span>
+      </footer>
+    </div>
+    <!-- close container -->
+
+    <script src="js/Classes/MemoryGame-Brain2.1.js"></script>
+
+    <script>
+      const picsArr = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+      ];
+
+      const memoryGame = new MemoryGame("app", picsArr);
+    </script>
+  </body>
+</html>

@@ -6,7 +6,7 @@ class Cell {
     this.x = indexi * width;
     this.y = indexj * width;
     this.neighboringBombs = 0;
-
+    this.flagged = false;
     this.bomb = false;
     this.revealed = false;
   }
@@ -17,15 +17,19 @@ class Cell {
     rect(this.x, this.y, this.width, this.width);
     if (this.revealed) {
       if (this.bomb) {
+        textSize(16);
+        textAlign(CENTER, CENTER);
+        fill(192, 192, 192);
+        text("🌲", this.x + this.width * 0.5, this.y + this.width / 2);
         // TODO: place mine emoji here
-        fill(127);
-        ellipse(
-          this.x + this.width * 0.5,
-          this.y + this.width * 0.5,
-          this.width * 0.5
-        );
+        // fill(127);
+        // ellipse(
+        //   this.x + this.width * 0.5,
+        //   this.y + this.width * 0.5,
+        //   this.width * 0.5
+        // );
       } else {
-        fill(127);
+        fill(128, 128, 128);
         rect(this.x, this.y, this.width, this.width);
         if (this.neighboringBombs > 0) {
           textAlign(CENTER);
@@ -37,6 +41,13 @@ class Cell {
           );
         }
       }
+    }
+
+    if (this.flagged) {
+      textSize(12);
+      textAlign(CENTER, CENTER);
+      fill(0, 102, 153);
+      text("🚩", this.x + this.width * 0.5, this.y + this.width / 2);
     }
   }
 
@@ -78,20 +89,5 @@ class Cell {
 
   floodFill(grid) {
     console.log("reveal ", grid);
-    for (let xoffset = -1; xoffset <= 1; xoffset++) {
-      for (let yoffset = 1; yoffset <= 1; yoffset++) {
-        let i = this.i + xoffset;
-        let j = this.j + yoffset;
-
-        if (i > -1 && i < cols && j > -1 && j < rows) {
-          //Sometimes Error here
-          let neighbor = grid[i][j];
-          console.log(`neighbor: `, neighbor, neighbor.bomb);
-          if (!neighbor.bomb && !neighbor.revealed) {
-            neighbor.revealCell();
-          }
-        }
-      }
-    }
   }
 }

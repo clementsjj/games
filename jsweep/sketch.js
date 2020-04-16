@@ -3,9 +3,14 @@ let cols;
 let rows;
 let cellWidth = 40;
 let totalBombs = 10;
+let canvas;
 
 function setup() {
-  createCanvas(401, 401);
+  canvas = createCanvas(401, 401);
+  canvas.parent("canvasContainer");
+  document
+    .getElementById("canvasContainer")
+    .addEventListener("contextmenu", (event) => event.preventDefault());
   cols = floor(width / cellWidth);
   rows = floor(height / cellWidth);
 
@@ -26,38 +31,36 @@ function setup() {
   gridMatrix.insertNeighboringBombData();
 }
 
-function gameOver() {
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      grid[i][j].revealed = true;
-    }
-  }
+function restart() {
+  // delete variable??
+  console.log("Restart");
+  canvas = "";
+  document.getElementById("messageBox").innerText = "";
+  setup();
 }
 
 function mousePressed() {
   const x = Math.ceil(mouseX / cellWidth) - 1;
   const y = Math.ceil(mouseY / cellWidth) - 1;
-  let cell = gridMatrix.getBoardPosition(x, y);
-  console.log(cell);
-  cell.revealCell(gridMatrix.getBoard());
 
-  if (keyIsPressed) {
-    console.log(x, y);
+  console.log(`
+  ************************
+  ** Clicked cell ${x}, ${y} **
+  ************************`);
+  if (mouseButton === LEFT) {
+    if (gridMatrix.verifyCoordinates(x, y)) {
+      gridMatrix.revealCell(x, y);
+    }
+
+    if (keyIsPressed) {
+      console.log(`Key Pressed with ${x}, ${y}`);
+    }
+  } else if (mouseButton === RIGHT) {
+    let grid = gridMatrix.getBoard();
+    if (grid[x][y].revealed === false) {
+      gridMatrix.flagCell(x, y);
+    }
   }
-
-  // for (let i = 0; i < cols; i++) {
-  //   for (let j = 0; j < rows; j++) {
-  //     let cell = gridMatrix.getBoard(i, j);
-  //     console.log(cell);
-  //     if (cell.contains(x, y)) {
-  //       cell.revealCell();
-
-  //       if (cell.bomb) {
-  //         gameOver();
-  //       }
-  //     }
-  //   }
-  // }
 }
 
 function draw() {

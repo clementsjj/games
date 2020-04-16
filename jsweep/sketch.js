@@ -1,23 +1,20 @@
-function make2dArray(cols, rows) {
-  console.log("making 2d array..");
-  let arr = new Array(cols);
-  for (let i = 0; i < arr.length; i++) {
-    arr[i] = new Array(rows);
-  }
-  return arr;
-}
-
 let grid;
 let cols;
 let rows;
-let w = 40;
-let totalBees = 10;
+let cellWidth = 40;
+let totalBombs = 10;
+let canvas;
+let messageTextBox;
+messageTextBox = document.getElementById("messageText");
 
 function setup() {
-  console.log("creating canvas");
-  createCanvas(401, 401);
-  cols = floor(width / w);
-  rows = floor(height / w);
+  canvas = createCanvas(401, 401);
+  canvas.parent("canvasContainer");
+  document
+    .getElementById("canvasContainer")
+    .addEventListener("contextmenu", (event) => event.preventDefault());
+  cols = floor(width / cellWidth);
+  rows = floor(height / cellWidth);
 
   console.log(
     "cols: ",
@@ -25,73 +22,57 @@ function setup() {
     "rows: ",
     rows,
     "cell width: ",
-    w,
+    cellWidth,
     "\nwidth: ",
     width,
     "\nheight",
     height
   );
-  grid = make2dArray(cols, rows);
-
-  console.log("constructing cells...");
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      grid[i][j] = new Cell(i, j, w);
-    }
-  }
-
-  // An array of evry possible option on the board
-  let options = [];
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < cols; j++) {
-      options.push([i, j]);
-    }
-  }
-
-  for (let n = 0; n < totalBees; n++) {
-    let index = floor(random(options.length));
-    let choice = options[index];
-    let i = choice[0];
-    let j = choice[1];
-
-    options.splice(index, 1);
-    grid[i][j].bee = true;
-  }
-
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      grid[i][j].countBees();
-    }
-  }
+  gridMatrix = new Board({ cols, rows, cellWidth, bombs: totalBombs });
+  gridMatrix.make2dArray();
+  gridMatrix.insertNeighboringBombData();
 }
 
-function gameOver() {
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      grid[i][j].revealed = true;
-    }
-  }
+function restart() {
+  // delete variable??
+  console.log("Restart");
+  canvas = "";
+
+  document.getElementById("messageText").style.color = "black";
+  document.getElementById("messageText").innerText = "Have Fun! Be Safe!";
+  setup();
 }
 
 function mousePressed() {
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      if (grid[i][j].contains(mouseX, mouseY)) {
-        grid[i][j].reveal();
+  const x = Math.ceil(mouseX / cellWidth) - 1;
+  const y = Math.ceil(mouseY / cellWidth) - 1;
 
-        if (grid[i][j].bee) {
-          gameOver();
-        }
-      }
+  console.log(`
+  ************************
+  ** Clicked cell ${x}, ${y} **
+  ************************`);
+  if (mouseButton === LEFT) {
+    if (gridMatrix.verifyCoordinates(x, y)) {
+      gridMatrix.revealCell(x, y);
+    }
+
+    if (keyIsPressed) {
+      console.log(`Key Pressed with ${x}, ${y}`);
+    }
+  } else if (mouseButton === RIGHT) {
+    let grid = gridMatrix.getBoard();
+    if (grid[x][y].revealed === false) {
+      gridMatrix.flagCell(x, y);
     }
   }
 }
 
 function draw() {
   background(200);
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      grid[i][j].show();
-    }
-  }
+  gridMatrix.drawGrid();
+  // for (let i = 0; i < cols; i++) {
+  //   for (let j = 0; j < rows; j++) {
+  //     gridMatrix[i][j].show();
+  //   }
+  // }
 }

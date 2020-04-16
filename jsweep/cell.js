@@ -1,86 +1,93 @@
-function Cell(i, j, w) {
-  // Passing in index i & j instead of x, y; can use index to calculate the size of the grid
-  this.i = i;
-  this.j = j;
-  this.w = w;
-  this.x = i * w;
-  this.y = j * w;
-  this.neighborCount = 0;
-
-  this.bee = false;
-  this.revealed = false;
-}
-
-Cell.prototype.show = function () {
-  stroke(0);
-  noFill();
-  rect(this.x, this.y, this.w, this.w);
-
-  if (this.revealed) {
-    if (this.bee) {
-      // TODO: place mine emoji here
-      fill(127);
-      ellipse(this.x + this.w * 0.5, this.y + this.w * 0.5, this.w * 0.5);
-    } else {
-      fill(127);
-      rect(this.x, this.y, this.w, this.w);
-      if (this.neighborCount > 0) {
-        textAlign(CENTER);
-        fill(0);
-        text(this.neighborCount, this.x + this.w * 0.5, this.y + this.w - 6);
-      }
-    }
-  }
-};
-
-// Works
-Cell.prototype.countBees = function () {
-  if (this.bee) {
-    this.neighborCount = -1;
-    return;
+class Cell {
+  constructor(indexi, indexj, width) {
+    this.i = indexi;
+    this.j = indexj;
+    this.width = width;
+    this.x = indexi * width;
+    this.y = indexj * width;
+    this.neighboringBombs = 0;
+    this.flagged = false;
+    this.bomb = false;
+    this.revealed = false;
   }
 
-  var total = 0;
-  for (var xoff = -1; xoff <= 1; xoff++) {
-    var i = this.i + xoff;
-    if (i < 0 || i >= cols) continue;
-
-    for (var yoff = -1; yoff <= 1; yoff++) {
-      var j = this.j + yoff;
-      if (j < 0 || j >= rows) continue;
-
-      var neighbor = grid[i][j];
-      if (neighbor.bee) {
-        total++;
-      }
-    }
-  }
-  this.neighborCount = total;
-};
-
-Cell.prototype.contains = function (x, y) {
-  return x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.w;
-};
-
-Cell.prototype.reveal = function () {
-  this.revealed = true;
-  if (this.neighborCount == 0) {
-    this.floodFill();
-  }
-};
-
-Cell.prototype.floodFill = function () {
-  for (var xoff = -1; xoff <= 1; xoff++) {
-    for (var yoff = -1; yoff <= 1; yoff++) {
-      var i = this.i + xoff;
-      var j = this.j + yoff;
-
-      if (i > -1 && i < cols && j > -1 && j < rows) {
-        var neighbor = grid[i][j];
-        if (!neighbor.bee && !neighbor.revealed) {
-          neighbor.reveal();
+  show() {
+    stroke(0);
+    noFill();
+    rect(this.x, this.y, this.width, this.width);
+    if (this.revealed) {
+      if (this.bomb) {
+        textSize(16);
+        textAlign(CENTER, CENTER);
+        fill(192, 192, 192);
+        text("🌲", this.x + this.width * 0.5, this.y + this.width / 2);
+        // TODO: place mine emoji here
+        // fill(127);
+        // ellipse(
+        //   this.x + this.width * 0.5,
+        //   this.y + this.width * 0.5,
+        //   this.width * 0.5
+        // );
+      } else {
+        fill(128, 128, 128);
+        rect(this.x, this.y, this.width, this.width);
+        if (this.neighboringBombs > 0) {
+          textAlign(CENTER);
+          fill(0);
+          text(
+            this.neighboringBombs,
+            this.x + this.width * 0.5,
+            this.y + this.width / 2
+          );
         }
       }
     }
+
+    if (this.flagged) {
+      textSize(12);
+      textAlign(CENTER, CENTER);
+      fill(0, 102, 153);
+      text("🚩", this.x + this.width * 0.5, this.y + this.width / 2);
+    }
   }
-};
+
+  countBombs(grid) {
+    if (this.bomb) {
+      this.neighboringBombs = -1;
+      return;
+    }
+    let total = 0;
+
+    for (let xoffset = -1; xoffset <= 1; xoffset++) {
+      let i = this.i + xoffset;
+      if (i < 0 || i >= cols) continue;
+
+      for (let yoff = -1; yoff <= 1; yoff++) {
+        let j = this.j + yoff;
+        if (j < 0 || j >= rows) continue;
+        let neighbor = grid[i][j];
+        if (neighbor.bomb) {
+          total++;
+        }
+      }
+    }
+    this.neighboringBombs = total;
+  }
+
+  contains(x, y) {
+    return (
+      x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.w
+    );
+  }
+
+  revealCell(grid) {
+    this.revealed = true;
+    if (this.neighboringBombs == 0) {
+      this.floodFill(grid);
+    }
+  }
+
+  floodFill(grid) {
+    console.log("reveal ", grid);
+  }
+}

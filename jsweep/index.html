@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
+    <link rel="icon" href="assets/favicon.ico" />
     <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
     <script src="sketch.js"></script>
     <script src="Board.js"></script>
@@ -15,19 +12,44 @@
       html {
         background-color: #00787f;
       }
-      #window95 {
-        margin-top: 5%;
+      #flexContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #messageBox {
+        width: 401px;
+        display: grid;
+        grid-template-areas: "graphic text .";
+        grid-template-columns: 25% 50% 25%;
+        align-items: center;
+      }
+      #alertSymbol {
+        grid-area: graphic;
+        height: 50px;
+        width: 50px;
+      }
+      #messageText {
+        grid-area: text;
+        justify-self: center;
+        font-weight: 900;
+        font-family: monospace;
+        font-size: 1.5rem;
+      }
+      #message {
+        height: 60px;
+        width: 401px;
+        border: 1px solid blue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #pinesweeperContainer {
+        /* margin-top: 5%; */
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-      }
-      #messageBox {
-        height: 10%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: red;
       }
       #titleBar {
         /* width: 100%; */
@@ -40,6 +62,7 @@
       #titleBarText {
         font-family: sans-serif;
         color: white;
+        margin-left: 5px;
       }
       #stats {
         background-color: #c0c0c0;
@@ -52,28 +75,38 @@
       #statsp {
         margin-right: 20px;
       }
-
-      img {
-        height: 50px;
-        width: 150px;
-      }
+      /* #restart {
+        box-shadow: 2px 2px black;
+      } */
       button {
-        margin-top: 5px;
+        /* padding: 0px;
+        height: 50px;
+        width: 150px; */
+        background-color: #c0c0c0;
         box-shadow: 2px 2px black;
       }
     </style>
-
-    <title>jsweep</title>
+    <title>Pinesweeper</title>
   </head>
+
   <body>
-    <div id="messageBox"></div>
-    <div id="window95">
+    <div id="flexContainer" style="margin-top: 30px; margin-bottom: 10px;">
+      <div id="messageBox">
+        <img id="alertSymbol" src="assets/alert.png" />
+        <div id="messageText">Have Fun!</div>
+      </div>
+    </div>
+
+    <div id="pinesweeperContainer">
       <div id="titleBar">
         <p id="titleBarText">🌲 Pinesweeper</p>
       </div>
       <div id="canvasContainer"></div>
+
       <div id="stats">
-        <button onClick="restart()"><img src="win95restart.png" /></button>
+        <button onClick="restart()">
+          <img id="restart" src="assets/win95restart.png" />
+        </button>
         <p id="statsp">
           Flags Remainings: <span id="flags"></span>/<span
             id="totalFlags"

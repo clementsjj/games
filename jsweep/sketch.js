@@ -4,6 +4,8 @@ let rows;
 let cellWidth = 40;
 let totalBombs = 10;
 let canvas;
+let messageTextBox;
+messageTextBox = document.getElementById("messageText");
 
 function setup() {
   canvas = createCanvas(401, 401);
@@ -35,7 +37,9 @@ function restart() {
   // delete variable??
   console.log("Restart");
   canvas = "";
-  document.getElementById("messageBox").innerText = "";
+
+  document.getElementById("messageText").style.color = "black";
+  document.getElementById("messageText").innerText = "Have Fun! Be Safe!";
   setup();
 }
 

@@ -9,10 +9,10 @@ class Board {
     this.bombLocations = [];
     this.flagLocations = [];
     this.isGameOver = false;
-    this.victory = false;
+    this.isVictorious = false;
     this.totalBombs = bombs;
     this.availableFlags = this.totalBombs;
-    this.messageBox = document.getElementById("messageBox");
+    this.messageText = document.getElementById("messageText");
     this.flagBox = document.getElementById("flags");
     this.totalFlagsBox = document.getElementById("totalFlags");
     this.make2dArray = this.make2dArray.bind(this);
@@ -61,11 +61,9 @@ class Board {
     cell.revealed = true;
 
     if (cell.bomb) {
-      this.messageBox.innerHTML = `
-        <p>BOOM!</p>
-        <br/>
-        <p>Game Over</p>
-        `;
+      this.messageText.style.color = "red";
+      this.messageText.innerText = `Boom!
+      Game Over!`;
       console.log("Bomb Found");
       this.gameOver();
     } else {
@@ -130,16 +128,38 @@ class Board {
       //     JSON.stringify(this.flagLocations[i]) ===
       //     JSON.stringify(this.bombLocations[i])
       //   ) {
-      this.victory = true;
-      for (let i = 0; i < this.cols; i++) {
-        for (let j = 0; j < this.rows; j++) {
-          this.grid[i][j].revealed = true;
-        }
-      }
-      this.messageBox.style.color = "green";
-      this.messageBox.innerText = "VICTORY!!!";
+      // this.victory = true;
+      // for (let i = 0; i < this.cols; i++) {
+      //   for (let j = 0; j < this.rows; j++) {
+      //     this.grid[i][j].revealed = true;
+      //   }
+      // }
+      // this.messageText.style.color = "green";
+      // this.messageText.innerText = "VICTORY!!!";
+
+      this.victory();
       //   }
     }
+  }
+
+  victory() {
+    this.isVictorious = true;
+    for (let i = 0; i < this.cols; i++) {
+      for (let j = 0; j < this.rows; j++) {
+        this.grid[i][j].revealed = true;
+      }
+    }
+    this.messageText.innerText = "Victory!!!";
+
+    setInterval(() => {
+      if ((this.messageText.style.color = "green")) {
+        this.messageText.style.color = "#c0c0c0";
+        this.messageText.style.backgroundColor = "green";
+      } else {
+        this.messageText.style.color = "green";
+        this.messageText.style.backgroundColor = "#c0c0c0";
+      }
+    }, 1000);
   }
 
   gameOver() {

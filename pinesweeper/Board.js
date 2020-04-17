@@ -33,16 +33,30 @@ class Board {
     this.placeBombs();
     this.flagBox.innerText = this.availableFlags;
     this.totalFlagsBox.innerText = this.totalBombs;
+    console.log("Bomb Locations: ", this.bombLocations);
   }
 
   placeBombs() {
     let bombOptions = [...this.cellOptions];
+    let randomIndexes = [];
+
     for (let n = 0; n < this.totalBombs; n++) {
-      let index = floor(random(this.cellOptions.length));
-      let choice = this.cellOptions[index];
+      let tempIndex = floor(random(this.cellOptions.length));
+      if (!randomIndexes.length) {
+        randomIndexes.push(tempIndex);
+      } else {
+        if (randomIndexes.includes(tempIndex)) {
+          while (randomIndexes.includes(tempIndex)) {
+            tempIndex = floor(random(this.cellOptions.length));
+          }
+        }
+        randomIndexes.push(tempIndex);
+      }
+      randomIndexes.push(tempIndex);
+      let choice = this.cellOptions[tempIndex];
       let i = choice[0];
       let j = choice[1];
-      bombOptions.splice(index, 1);
+      bombOptions.splice(tempIndex, 1);
       this.grid[i][j].bomb = true;
       this.bombLocations.push([i, j]);
     }
@@ -108,15 +122,12 @@ class Board {
       this.grid[i][j].flagged = false;
       this.availableFlags++;
       this.flagBox.innerText = this.availableFlags;
-      // Remove From flagLocations
-      //JSON Stringify?
       this.flagLocations.filter((cell) => cell !== [i, j]);
     } else {
       if (this.availableFlags > 0) {
         this.grid[i][j].flagged = true;
         this.availableFlags--;
         this.flagBox.innerText = this.availableFlags;
-        // Add to flagLocations
         this.flagLocations.push([i, j]);
       }
     }
@@ -124,21 +135,12 @@ class Board {
       console.log("Flags Array: ", this.flagLocations.sort());
       console.log("Bombs Array: ", this.bombLocations.sort());
 
-      //   if (
-      //     JSON.stringify(this.flagLocations[i]) ===
-      //     JSON.stringify(this.bombLocations[i])
-      //   ) {
-      // this.victory = true;
-      // for (let i = 0; i < this.cols; i++) {
-      //   for (let j = 0; j < this.rows; j++) {
-      //     this.grid[i][j].revealed = true;
-      //   }
-      // }
-      // this.messageText.style.color = "green";
-      // this.messageText.innerText = "VICTORY!!!";
-
-      this.victory();
-      //   }
+      if (
+        JSON.stringify(this.flagLocations[i]) ===
+        JSON.stringify(this.bombLocations[i])
+      ) {
+        this.victory();
+      }
     }
   }
 

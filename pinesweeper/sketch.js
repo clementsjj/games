@@ -47,10 +47,7 @@ function mousePressed() {
   const x = Math.ceil(mouseX / cellWidth) - 1;
   const y = Math.ceil(mouseY / cellWidth) - 1;
 
-  console.log(`
-  ************************
-  ** Clicked cell ${x}, ${y} **
-  ************************`);
+  console.log(`Clicked cell ${x}, ${y}`);
   if (mouseButton === LEFT) {
     if (gridMatrix.verifyCoordinates(x, y)) {
       gridMatrix.revealCell(x, y);

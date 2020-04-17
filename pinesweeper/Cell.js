@@ -21,13 +21,6 @@ class Cell {
         textAlign(CENTER, CENTER);
         fill(192, 192, 192);
         text("🌲", this.x + this.width * 0.5, this.y + this.width / 2);
-        // TODO: place mine emoji here
-        // fill(127);
-        // ellipse(
-        //   this.x + this.width * 0.5,
-        //   this.y + this.width * 0.5,
-        //   this.width * 0.5
-        // );
       } else {
         fill(128, 128, 128);
         rect(this.x, this.y, this.width, this.width);
@@ -72,22 +65,5 @@ class Cell {
       }
     }
     this.neighboringBombs = total;
-  }
-
-  contains(x, y) {
-    return (
-      x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.w
-    );
-  }
-
-  revealCell(grid) {
-    this.revealed = true;
-    if (this.neighboringBombs == 0) {
-      this.floodFill(grid);
-    }
-  }
-
-  floodFill(grid) {
-    console.log("reveal ", grid);
   }
 }

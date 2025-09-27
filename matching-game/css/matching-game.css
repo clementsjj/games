@@ -1,0 +1,124 @@
+@charset = "UTF-8";
+
+body {
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 1.25rem;
+  text-align: center;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+#container {
+  background-color: #eee;
+  width: 1325x; /* relative to body */
+  margin: 0px auto; /* center container within body */
+  /*    border: 1px solid #AAA;*/
+  border-radius: 5px;
+  height: 100vh;
+  text-align: center;
+  padding: 10px; /* keep child elements from hitting edge of container */
+}
+
+table {
+  background-color: white;
+  width: 100%;
+  border-radius: 25px;
+  /* border: 3px solid forestgreen; */
+}
+
+th {
+  background-color: forestgreen;
+  color: bisque;
+}
+
+img {
+  width: 99px;
+  height: auto;
+}
+
+#title {
+  font-size: 1.25rem;
+}
+
+#chooser {
+  font-size: 1.25rem;
+  padding: 5px 10px;
+  margin-left: 100px;
+}
+
+.pics {
+  background-color: #fff;
+  width: 200px; /* relative to body */
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.pics:hover {
+  background-color: #efe;
+}
+
+#app {
+  background-color: white;
+  width: 95%; /* relative to body */
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px;
+  min-height: 70vh;
+  display: grid;
+  grid-template-columns: repeat(8, 12.5%);
+}
+
+header {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px;
+  margin: 5px auto;
+  text-align: center;
+  color: #455;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 1rem;
+}
+
+footer {
+  float: left;
+  color: #455;
+  letter-spacing: 3px;
+  font-size: 1rem;
+  text-align: center;
+  padding: 5px;
+}
+
+/* button {
+  font-size: 1.25rem;
+  color: whitesmoke;
+  background-color: #576;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  width: 150px;
+  height: 40px;
+  padding: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #798;
+} */
+
+.secs {
+  font-size: 1.25rem;
+  color: red;
+  margin: 0 5px;
+}
